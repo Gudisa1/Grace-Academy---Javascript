@@ -4,15 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Age Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="age-calculator">
-  <label for="birthdate">Enter your birthdate:</label>
-  <input type="date" id="birthdate" name="birthdate">
-  <button id="calculateBtn">Calculate Age</button>
-  <div id="result"></div>
-</div>
-<script src="index.js"></script>
+    <div class="card-container">
+        <h1>Age Calculator</h1>
+        <div class="input-group">
+            <label for="dob">Enter your date of birth:</label>
+            <input type="date" id="dob" class="input-field">
+        </div>
+        <button id="calculate-btn" class="button">Calculate</button>
+        <div id="result" class="result"></div>
+    </div>
+
+    <!-- Custom Modal for alerts -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title"></h2>
+            <p id="modal-message"></p>
+            <button id="modal-button" class="modal-button">OK</button>
+        </div>
+    </div>
+
+    <script>
+        const calculateBtn = document.getElementById('calculate-btn');
+        const dobInput = document.getElementById('dob');
+        const resultDiv = document.getElementById('result');
+
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalButton = document.getElementById('modal-button');
+
+        function showModal(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modal.style.display = 'flex';
+        }
+
+        modalButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        calculateBtn.addEventListener('click', () => {
+            const dob = new Date(dobInput.value);
+            const now = new Date();
+
+            if (isNaN(dob.getTime())) {
+                showModal("Invalid Date", "Please enter a valid date of birth.");
+                return;
+            }
+
+            if (dob > now) {
+                showModal("Invalid Date", "Date of birth cannot be in the future.");
+                return;
+            }
+
+            let years = now.getFullYear() - dob.getFullYear();
+            let months = now.getMonth() - dob.getMonth();
+            let days = now.getDate() - dob.getDate();
+
+            if (days < 0) {
+                months--;
+                const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += lastMonth.getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            resultDiv.innerHTML = `
+                <span class="result-item">You are <span>${years}</span> years,</span>
+                <span class="result-item"><span>${months}</span> months,</span>
+                <span class="result-item">and <span>${days}</span> days old.</span>
+            `;
+        });
+    </script>
 </body>
 </html>

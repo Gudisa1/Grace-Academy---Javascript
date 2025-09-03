@@ -1,29 +1,168 @@
-.age-calculator {
-  max-width: 300px;
-  margin: 50px auto;
-  font-family: Arial, sans-serif;
+:root {
+    --primary-color: #568F87;
+    --primary-color-dark: #3e6661;
+    --primary-color-light: #7cb9b3;
+    --background-start: #f4f6f8;
+    --background-end: #e8ebef;
+    --card-background: rgba(255, 255, 255, 0.9);
+    --text-color: #2c3e50;
+    --subtle-text: #7f8c8d;
+    --border-color: #d8dee3;
+    --box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.05);
+    --button-shadow: 0 8px 20px rgba(86, 143, 135, 0.3);
 }
 
-input, button {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  box-sizing: border-box;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-button {
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  cursor: pointer;
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--background-start) 0%, var(--background-end) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    padding: 2rem;
 }
 
-button:hover {
-  background-color: #0056b3;
+.card-container {
+    width: 100%;
+    max-width: 450px;
+    background: var(--card-background);
+    border-radius: 25px;
+    box-shadow: var(--box-shadow);
+    padding: 3rem 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
 }
 
-#result {
-  margin-top: 15px;
-  font-size: 18px;
-  font-weight: bold;
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--primary-color-dark);
+}
+
+.input-group {
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--subtle-text);
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-color-light);
+}
+
+.button {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: var(--button-shadow);
+}
+
+.button:hover {
+    background-color: var(--primary-color-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(86, 143, 135, 0.4);
+}
+
+.result {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.result span {
+    color: var(--primary-color-dark);
+    font-weight: 700;
+}
+
+.result-item {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: var(--card-background);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--box-shadow);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content h2 {
+    margin-bottom: 1rem;
+    color: var(--primary-color-dark);
+}
+
+.modal-content p {
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.modal-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-button:hover {
+    background-color: var(--primary-color-dark);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
