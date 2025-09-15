@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+
+    <div class="todo-container">
+        <h1 class="todo-header"> Todo List</h1>
+        <div class="input-group">
+            <input type="text" id="todo-input" class="todo-input" placeholder="Add a new task...">
+            <button id="add-button" class="add-button">Add</button>
+        </div>
+        <ul id="todo-list" class="todo-list">
+            <!-- Tasks will be dynamically added here -->
+        </ul>
+    </div>
+
+
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+
+            <h2 id="modal-title"></h2>
+            <p id="modal-message"></p>
+            <button id="modal-button" class="modal-button">OK</button>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

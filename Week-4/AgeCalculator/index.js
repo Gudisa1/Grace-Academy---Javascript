@@ -1,37 +1,54 @@
-const birthdateInput = document.getElementById("birthdate");
-const calculateBtn = document.getElementById("calculateBtn");
-const resultDiv = document.getElementById("result");
+const calculateBtn = document.getElementById('calculate-btn');
+const dobInput = document.getElementById('dob');
+const resultDiv = document.getElementById('result');
 
-calculateBtn.addEventListener("click", () => {
-  const birthdateValue = birthdateInput.value;
-  
-  if (!birthdateValue) {
-    alert("Please enter your birthdate.");
-    return;
-  }
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modal-title');
+const modalMessage = document.getElementById('modal-message');
+const modalButton = document.getElementById('modal-button');
 
-  const birthDate = new Date(birthdateValue);
-  const today = new Date();
+function showModal(title, message) {
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    modal.style.display = 'flex';
+}
 
-  if (birthDate > today) {
-    alert("Birthdate cannot be in the future!");
-    return;
-  }
+modalButton.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
 
-  let years = today.getFullYear() - birthDate.getFullYear();
-  let months = today.getMonth() - birthDate.getMonth();
-  let days = today.getDate() - birthDate.getDate();
+calculateBtn.addEventListener('click', () => {
+    const dob = new Date(dobInput.value);
+    const now = new Date();
 
-  // Adjust for negative months or days
-  if (days < 0) {
-    months -= 1;
-    days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
-  }
+    if (isNaN(dob.getTime())) {
+        showModal("Invalid Date", "Please enter a valid date of birth.");
+        return;
+    }
 
-  if (months < 0) {
-    years -= 1;
-    months += 12;
-  }
+    if (dob > now) {
+        showModal("Invalid Date", "Date of birth cannot be in the future.");
+        return;
+    }
 
-  resultDiv.textContent = `You are ${years} years, ${months} months, and ${days} days old.`;
+    let years = now.getFullYear() - dob.getFullYear();
+    let months = now.getMonth() - dob.getMonth();
+    let days = now.getDate() - dob.getDate();
+
+    if (days < 0) {
+        months--;
+        const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+        days += lastMonth.getDate();
+    }
+
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    resultDiv.innerHTML = `
+        <span class="result-item">You are <span>${years}</span> years,</span>
+        <span class="result-item"><span>${months}</span> months,</span>
+        <span class="result-item">and <span>${days}</span> days old.</span>
+    `;
 });
