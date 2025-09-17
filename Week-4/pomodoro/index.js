@@ -1,61 +1,97 @@
-const timerDisplay = document.getElementById("timerDisplay");
-const startBtn = document.getElementById("startBtn");
-const pauseBtn = document.getElementById("pauseBtn");
-const resetBtn = document.getElementById("resetBtn");
-const switchBtn = document.getElementById("switchBtn");
+  // Element references
+        const timerDisplay = document.getElementById('timer');
+        const startPauseBtn = document.getElementById('start-pause-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const statusMessage = document.getElementById('status');
+        
+        // Modal elements
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalButton = document.getElementById('modal-button');
 
-let workDuration = 25 * 60;  // 25 minutes in seconds
-let breakDuration = 5 * 60;  // 5 minutes in seconds
-let timeLeft = workDuration;
-let timer = null;
-let isWorkSession = true;    // true = work, false = break
+        // Timer variables
+        let isRunning = false;
+        let isWorkSession = true;
+        let timerInterval;
+        const workDuration = 25 * 60;
+        const breakDuration = 5 * 60;
+        let timeLeft = workDuration;
 
-function updateDisplay() {
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
-  timerDisplay.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-}
+        // Custom modal for alerts
+        function showModal(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modal.style.display = 'flex';
+        }
 
-function startTimer() {
-  if (timer) return; // Prevent multiple intervals
+        modalButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
 
-  timer = setInterval(() => {
-    if (timeLeft > 0) {
-      timeLeft--;
-      updateDisplay();
-    } else {
-      clearInterval(timer);
-      timer = null;
-      alert(isWorkSession ? "Work session complete! Time for a break." : "Break over! Back to work.");
-    }
-  }, 1000);
-}
+        // Function to update the timer display
+        function updateDisplay() {
+            const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+            const seconds = String(timeLeft % 60).padStart(2, '0');
+            timerDisplay.textContent = `${minutes}:${seconds}`;
+        }
 
-function pauseTimer() {
-  clearInterval(timer);
-  timer = null;
-}
+        // Function to start or pause the timer
+        function startPauseTimer() {
+            if (isRunning) {
+                // Pause timer
+                clearInterval(timerInterval);
+                startPauseBtn.textContent = 'Start';
+            } else {
+                // Start timer
+                startPauseBtn.textContent = 'Pause';
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateDisplay();
+                    if (timeLeft <= 0) {
+                        handleSessionEnd();
+                    }
+                }, 1000);
+            }
+            isRunning = !isRunning;
+        }
 
-function resetTimer() {
-  pauseTimer();
-  timeLeft = isWorkSession ? workDuration : breakDuration;
-  updateDisplay();
-}
+        // Function to handle session completion
+        function handleSessionEnd() {
+            clearInterval(timerInterval);
+            isWorkSession = !isWorkSession;
+            
+            if (isWorkSession) {
+                // Start a new work session
+                timeLeft = workDuration;
+                statusMessage.textContent = 'Work Session';
+                showModal("Time's Up!", "Your break is over. Time to get back to work!");
+            } else {
+                // Start a break session
+                timeLeft = breakDuration;
+                statusMessage.textContent = 'Break Session';
+                showModal("Time's Up!", "Take a short break. You've earned it!");
+            }
+            
+            updateDisplay();
+            isRunning = false;
+            startPauseBtn.textContent = 'Start';
+        }
 
-function switchSession() {
-  pauseTimer();
-  isWorkSession = !isWorkSession;
-  timeLeft = isWorkSession ? workDuration : breakDuration;
-  switchBtn.textContent = isWorkSession ? "Switch to Break" : "Switch to Work";
-  updateDisplay();
-}
+        // Function to reset the timer
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            isWorkSession = true;
+            timeLeft = workDuration;
+            startPauseBtn.textContent = 'Start';
+            statusMessage.textContent = 'Work Session';
+            updateDisplay();
+        }
 
+        // Event listeners
+        startPauseBtn.addEventListener('click', startPauseTimer);
+        resetBtn.addEventListener('click', resetTimer);
 
-startBtn.addEventListener("click", startTimer);
-pauseBtn.addEventListener("click", pauseTimer);
-resetBtn.addEventListener("click", resetTimer);
-switchBtn.addEventListener("click", switchSession);
-
-// Initialize display
-updateDisplay();
-
+        // Initial setup
+        window.onload = updateDisplay;

@@ -1,0 +1,112 @@
+:root {
+    --primary-color: #8ABB6C;
+    --primary-color-dark: #6c7f55;
+    --background-start: #f4f6f8;
+    --background-end: #e8ebef;
+    --card-background: rgba(255, 255, 255, 0.9);
+    --text-color: #2c3e50;
+    --subtle-text: #7f8c8d;
+    --box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.05);
+    --button-shadow: 0 8px 20px rgba(138, 187, 108, 0.3);
+    --timer-bg: #e0e6ed;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--background-start) 0%, var(--background-end) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    padding: 2rem;
+    transition: background-color 0.5s ease;
+}
+
+.timer-container {
+    width: 100%;
+    max-width: 450px;
+    background: var(--card-background);
+    border-radius: 25px;
+    box-shadow: var(--box-shadow);
+    padding: 3rem 2rem;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color-dark);
+}
+
+.status-message {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--subtle-text);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#timer {
+    font-size: 5rem;
+    font-weight: 700;
+    color: var(--primary-color-dark);
+    background: var(--timer-bg);
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    transition: color 0.5s ease, background-color 0.5s ease;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: var(--button-shadow);
+}
+
+#start-pause-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+#start-pause-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(138, 187, 108, 0.4);
+}
+
+#reset-btn {
+    background-color: var(--subtle-text);
+    color: white;
+    box-shadow: 0 8px 20px rgba(127, 140, 141, 0.3);
+}
+#reset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(127, 140, 141, 0.4);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
